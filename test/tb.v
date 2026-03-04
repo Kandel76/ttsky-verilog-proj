@@ -27,6 +27,62 @@ module tb ();
   wire VGND = 1'b0;
 `endif
 
+  // Clock generation (100 MHz -> period 10ns)
+  initial clk = 0;
+  always #5 clk = ~clk;
+
+  // expected value for operations
+  function [7:0] expected_alu;
+    input [3:0] a;
+    input [3:0] b;
+    input [2:0] op;
+    reg [4:0] tmp;
+    reg c;
+    reg v;
+    begin
+      case (op)
+
+        3'b000: begin // A + B
+          tmp = a + b;
+          c = tmp[4];
+          // overflow: same sign operands, different from result sign
+          v = (a[3] == b[3]) && (tmp[3] != a[3]);
+          expected_alu = {v, tmp[3], (tmp[3:0] == 4'b0000), c, tmp[3:0]};
+        end
+
+
+        3'b001: begin // A - B
+          tmp = a - b;
+          c = tmp[4]; // borrow inverted in two's complement, carry indicates no borrow
+          v = (a[3] != b[3]) && (tmp[3] != a[3]);
+          expected_alu = {v, tmp[3], (tmp[3:0] == 4'b0000), c, tmp[3:0]};
+        end
+
+
+        3'b010: expected_alu = {1'b0,1'b0, (a & b) == 4'b0000,1'b0, a & b};
+        3'b011: expected_alu = {1'b0,1'b0, (a | b) == 4'b0000,1'b0, a | b};
+        3'b100: expected_alu = {1'b0,1'b0, (a ^ b) == 4'b0000,1'b0, a ^ b};
+        3'b101: begin
+          tmp = {a,1'b0};
+          c = tmp[4];
+          expected_alu = {1'b0, tmp[3], (tmp[3:0] == 4'b0000), c, tmp[3:0]};
+        end
+
+
+        3'b110: begin
+          c = a[0];
+          expected_alu = {1'b0, a[3:1] == 3'b000 ? 1'b0 : a[3], ( {1'b0,a[3:1]} == 4'b0000), c, {1'b0,a[3:1]}};
+          // for right shift negative flag comes from MSB of result
+        end
+
+
+        3'b111: expected_alu = {1'b0, a[3], (a == 4'b0000), 1'b0, a};
+        default: expected_alu = 8'h00;
+      endcase
+    end
+  endfunction
+
+
   // Replace tt_um_example with your module name:
   tt_um_example user_project (
 
@@ -45,5 +101,45 @@ module tb ();
       .clk    (clk),      // clock
       .rst_n  (rst_n)     // not reset
   );
+
+  // test
+  initial begin
+
+    //default values
+    ena = 1;
+    ui_in = 8'b00;
+    uio_in = 8'b00;
+    rst_n = 0;
+    #20;
+    rst_n = 1;
+
+    // loop through a combinations
+    for (int op = 0; op < 8; op++) begin //from 0 to 7 (op code is 3 bit)
+      
+      for (int a = 0; a < 16; a++) begin //operand A (3 bit) loop from 0-15
+        
+        for (int b = 0; b < 16; b++) begin //operant B (3 bit) loop from 0-15
+          
+          ui_in  = {b[3:0], a[3:0]};
+          
+          uio_in = op;
+          
+          #10; // wait for the output to settle
+
+          //check against the expected values
+          if (uo_out !== expected_alu(a[3:0], b[3:0], op[2:0])) begin
+            
+            //show potential errors
+            $display("ERROR: op %b A %h B %h got %h expected %h", op, a, b, uo_out, expected_alu(a[3:0], b[3:0], op[2:0]));
+            //exit
+            $fatal(1);
+          end
+        end
+      end
+    end
+
+    $display("================All ALU tests PASSED================");
+    $finish;
+  end
 
 endmodule
