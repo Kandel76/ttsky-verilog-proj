@@ -3,9 +3,9 @@ project:
   title:        "ALU"      # Project title
   author:       "Aadarsha Kandel"      # Your name
   discord:      "mr.kandel"      # Your discord username, for communication and automatically assigning you a Tapeout role (optional)
-  description:  "Implements a 4-bit ALU that performs arithmetic and logical operations (add, subtract, ADD, OR, XOR, Shift) on two 4-bit operands. There is also output flags for carry, zero, negative, and overflows."      # One line description of what your project does
+  description:  "Implements a 4-bit ALU that performs arithmetic and logical operations (add, subtract, ADD, OR, XOR, Shift) on two 4-bit operands. There is also output flags for carry, zero, negative, and overflows. AI was used for divsion of bits to plan i/os, creating the comparison model in the testbench, and minor lint errors."      # One line description of what your project does
   language:     "Verilog" # other examples include SystemVerilog, Amaranth, VHDL, etc
-  clock_hz:     0       # Clock frequency in Hz (or 0 if not applicable)
+  clock_hz:     100000000       # Clock frequency in Hz (or 0 if not applicable)
 
   # How many tiles your design occupies? A single tile is about 167x108 uM.
   tiles: "1x1"          # Valid values: 1x1, 1x2, 2x2, 3x2, 4x2, 6x2 or 8x2
