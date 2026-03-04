@@ -1,9 +1,9 @@
 # Tiny Tapeout project information
 project:
-  title:        ""      # Project title
-  author:       ""      # Your name
-  discord:      ""      # Your discord username, for communication and automatically assigning you a Tapeout role (optional)
-  description:  ""      # One line description of what your project does
+  title:        "ALU"      # Project title
+  author:       "Aadarsha Kandel"      # Your name
+  discord:      "mr.kandel"      # Your discord username, for communication and automatically assigning you a Tapeout role (optional)
+  description:  "Implements a 4-bit ALU that performs arithmetic and logical operations (add, subtract, ADD, OR, XOR, Shift) on two 4-bit operands. There is also output flags for carry, zero, negative, and overflows."      # One line description of what your project does
   language:     "Verilog" # other examples include SystemVerilog, Amaranth, VHDL, etc
   clock_hz:     0       # Clock frequency in Hz (or 0 if not applicable)
 
@@ -11,7 +11,7 @@ project:
   tiles: "1x1"          # Valid values: 1x1, 1x2, 2x2, 3x2, 4x2, 6x2 or 8x2
 
   # Your top module name must start with "tt_um_". Make it unique by including your github username:
-  top_module:  "tt_um_example"
+  top_module:  "tt_um_ALU"
 
   # List your project's source files here.
   # Source files must be in ./src and you must list each source file separately, one per line.
@@ -23,34 +23,34 @@ project:
 # This section is for the datasheet/website. Use descriptive names (e.g., RX, TX, MOSI, SCL, SEG_A, etc.).
 pinout:
   # Inputs
-  ui[0]: ""
-  ui[1]: ""
-  ui[2]: ""
-  ui[3]: ""
-  ui[4]: ""
-  ui[5]: ""
-  ui[6]: ""
-  ui[7]: ""
+  ui[0]: "Operand A"      
+  ui[1]: "Operand A"
+  ui[2]: "Operand A"
+  ui[3]: "Operand A (MSB)"
+  ui[4]: "Operand B"
+  ui[5]: "Operand B"
+  ui[6]: "Operand B"
+  ui[7]: "Operand B (MSB)"
 
   # Outputs
-  uo[0]: ""
-  uo[1]: ""
-  uo[2]: ""
-  uo[3]: ""
-  uo[4]: ""
-  uo[5]: ""
-  uo[6]: ""
-  uo[7]: ""
+  uo[0]: "Result"
+  uo[1]: "Result"
+  uo[2]: "Result"
+  uo[3]: "Result (MSB)"
+  uo[4]: "Carry Flag"
+  uo[5]: "Zero Flag"
+  uo[6]: "Negative Flag"
+  uo[7]: "Overflow Flag"
 
   # Bidirectional pins
-  uio[0]: ""
-  uio[1]: ""
-  uio[2]: ""
-  uio[3]: ""
-  uio[4]: ""
-  uio[5]: ""
-  uio[6]: ""
-  uio[7]: ""
+  uio[0]: "Opcode"
+  uio[1]: "Opcode"
+  uio[2]: "Opcode (MSB)"
+  uio[3]: "Unused"
+  uio[4]: "Unused"
+  uio[5]: "Unused"
+  uio[6]: "Unused"
+  uio[7]: "Unused"
 
 # Do not change!
 yaml_version: 6
