@@ -114,9 +114,6 @@ module tt_um_ALU (
                 negative_d = 1'b0;
             end
         endcase
-
-        // Flag next-state values
-        zero_d = (result_d == 4'b0000);
     end
 
     // Sequential logic for registered outputs
@@ -131,7 +128,7 @@ module tt_um_ALU (
             result_q   <= result_d;
             carry_q    <= carry_d;
             overflow_q <= overflow_d;
-            zero_q     <= zero_d;
+            zero_q     <= (result_d == 4'b0000);
             negative_q <= negative_d;
         end
     end
