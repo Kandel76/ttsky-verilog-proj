@@ -124,7 +124,7 @@ module tb ();
           
           uio_in = op;
           
-          #10; // wait for the output to settle
+          @(posedge clk); // synchronize with clock edge
 
           //check against the expected values
           if (uo_out !== expected_alu(a[3:0], b[3:0], op[2:0])) begin

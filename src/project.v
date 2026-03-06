@@ -120,7 +120,7 @@ module tt_um_ALU (
     end
 
     // Sequential logic for registered outputs
-    always_ff @(posedge clk or negedge rst_n) begin
+    always_ff @(posedge clk) begin
         if (!rst_n) begin
             result_q   <= 4'b0000;
             carry_q    <= 1'b0;
