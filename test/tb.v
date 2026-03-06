@@ -110,7 +110,7 @@ module tb ();
     ui_in = 8'b00;
     uio_in = 8'b00;
     rst_n = 0;
-    #20;
+    @(posedge clk); 
     rst_n = 1;
 
     // loop through a combinations
@@ -122,8 +122,8 @@ module tb ();
           
           ui_in  = {b[3:0], a[3:0]};
           
-          uio_in = op;
-          
+          uio_in = {5'b0, op};          
+
           @(posedge clk); // synchronize with clock edge
 
           //check against the expected values

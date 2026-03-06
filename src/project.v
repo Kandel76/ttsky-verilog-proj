@@ -64,7 +64,7 @@ module tt_um_ALU (
         overflow_d = 0;
         negative_d = 0;
 
-        unique case (op)
+        case (op)
             3'b000: begin //add case
                 {carry_d, result_d} = a + b;
                 overflow_d = (a[3] == b[3]) && (result_d[3] != a[3]);
